@@ -76,9 +76,7 @@ export const getUserById = async (uid: string) => {
 export const getAll = async () => {
   try {
     const users = await prisma.user.findMany({
-      select: {
-        email: true,
-        role: true,
+      include: {
         profile: {
           select: {
             firstname: true,
@@ -109,24 +107,24 @@ export const getAll = async () => {
   }
 };
 
+export const updateUserById = async (id: string, data: any) => {
+  try {
+    const updatedUser = await prisma.user.update({
+      where: {
+        id,
+      },
+      data,
+    });
+    console.log(updatedUser);
+    return { success: true, data: updatedUser };
+  } catch (error) {
+    console.log(error);
+    return { success: false, data: 'No se pudo actualizar el Usuario.' };
+  }
+};
+
 export const deleteUserById = async (uid: string) => {
   try {
-    const findProfile = await prisma.profile.findUnique({
-      where: {
-        userId: uid,
-      },
-    });
-    const deleteAddress = await prisma.address.delete({
-      where: {
-        profileId: findProfile?.id,
-      },
-    });
-
-    const deletedProfile = await prisma.profile.delete({
-      where: {
-        userId: uid,
-      },
-    });
     const deletedUser = await prisma.user.delete({
       where: {
         id: uid,

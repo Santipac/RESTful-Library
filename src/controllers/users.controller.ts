@@ -6,6 +6,7 @@ import {
   deleteUserById,
   getAll,
   getUserById,
+  updateUserById,
 } from '../services/users.services';
 
 export const createUser = async (req: Request, res: Response) => {
@@ -49,6 +50,14 @@ export const getAllUsers = async (req: Request, res: Response) => {
   return res.status(users.success ? 200 : 400).json({
     success: users.success,
     data: users.data,
+  });
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+  const updatedUser = await updateUserById(req.params.id, req.body);
+  return res.status(updatedUser.success ? 200 : 400).json({
+    success: updatedUser.success,
+    data: updatedUser.data,
   });
 };
 
