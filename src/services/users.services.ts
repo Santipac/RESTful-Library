@@ -1,7 +1,7 @@
 import { prisma } from '..';
 import { UserRoles } from '../entities/User/user.enum';
 
-export const create = async ({ email, profile }: any) => {
+export const createUser = async ({ email, profile }: any) => {
   try {
     const { firstname, lastname, dni, phone, address } = profile;
     const { street, number, zipCode, city, floor, apartment } = address;
@@ -73,7 +73,7 @@ export const getUserById = async (uid: string) => {
   }
 };
 
-export const getAll = async () => {
+export const getAllUsers = async () => {
   try {
     const users = await prisma.user.findMany({
       include: {

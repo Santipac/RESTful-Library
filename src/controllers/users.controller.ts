@@ -1,19 +1,18 @@
 import { Request, Response } from 'express';
-import { request } from 'http';
-import { prisma } from '..';
+
 import {
-  create,
+  createUser,
   deleteUserById,
-  getAll,
+  getAllUsers,
   getUserById,
   updateUserById,
 } from '../services/users.services';
 
-export const createUser = async (req: Request, res: Response) => {
+export const createUsers = async (req: Request, res: Response) => {
   const { email, profile } = req.body;
   const { firstname, lastname, dni, phone, address } = profile;
   const { street, number, zipCode, city, floor, apartment } = address;
-  const user = await create({
+  const user = await createUser({
     email,
     profile: {
       firstname,
@@ -45,8 +44,8 @@ export const getOneUser = async (req: Request, res: Response) => {
   });
 };
 
-export const getAllUsers = async (req: Request, res: Response) => {
-  const users = await getAll();
+export const getUsers = async (req: Request, res: Response) => {
+  const users = await getAllUsers();
   return res.status(users.success ? 200 : 400).json({
     success: users.success,
     data: users.data,
