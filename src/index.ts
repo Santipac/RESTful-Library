@@ -24,5 +24,6 @@ server.use('/editorials', editorialsRoutes);
 server.use('/categories', categoriesRoutes);
 
 server.listen(config.PORT, () => {
+  console.clear();
   console.log('🚀Server listening on port 3001');
 });

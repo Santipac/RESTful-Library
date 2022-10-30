@@ -12,7 +12,11 @@ export const createAuthor = async (data: any) => {
 
 export const getAllAuthors = async () => {
   try {
-    const authors = await prisma.author.findMany();
+    const authors = await prisma.author.findMany({
+      include: {
+        books: true,
+      },
+    });
     return { success: true, data: authors };
   } catch (error) {
     console.log(error);
