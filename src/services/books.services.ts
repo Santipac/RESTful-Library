@@ -21,20 +21,26 @@ export const createBook = async ({
         author: {
           connect: { id: author },
         },
-        // categories: {
-        //   connect: categories.map((category: any) => ({ id: category })),
-        // },
+
+        editorials: {
+          create: editorials.map(
+            ({ id, stock }: { id: any; stock: number }) => ({
+              stock,
+              editorial: {
+                connect: {
+                  id,
+                },
+              },
+            })
+          ),
+        },
       },
-      select: {
-        title: true,
-        synopsis: true,
-        type: true,
-        sellPrice: true,
-        loanPrice: true,
+      include: {
+        editorials: true,
         author: {
           select: {
             name: true,
-            id: true,
+            books: true,
           },
         },
       },

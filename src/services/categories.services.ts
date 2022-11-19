@@ -1,21 +1,48 @@
 import { prisma } from '..';
 
-export const createCategory = async ({ name, description }: any) => {
+export const createCategory = async (data: any) => {
   try {
-    const created = await prisma.category.create({
+    const { bookID, ...restData } = data;
+
+    const categoryBook = !!bookID
+      ? {
+          create: [
+            {
+              book: {
+                connect: {
+                  id: bookID,
+                },
+              },
+            },
+          ],
+        }
+      : {};
+
+    const categories = await prisma.category.create({
       data: {
-        name,
-        description,
+        ...restData,
+        books: categoryBook,
       },
     });
-    return { success: true, data: created };
+
+    return { success: true, data: categories };
   } catch (error) {
-    console.log(error);
-    return { success: false, data: 'No se pudo crear la categoria.' };
+    console.log({ error });
+    return { sucess: false, data: 'Hubo un error' };
   }
 };
 
 export const getAllCategories = async () => {
   const categories = await prisma.category.findMany();
   return categories;
+};
+
+export const deleteCategory = async (id: any) => {
+  try {
+    const deleted = await prisma.category.delete({ where: { id } });
+
+    return { success: true, deleted };
+  } catch (error) {
+    return { sucess: false, error: 'Hubo un error' };
+  }
 };

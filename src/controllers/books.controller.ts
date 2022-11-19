@@ -25,6 +25,8 @@ export const createBooks = async (req: Request, res: Response) => {
     sellPrice,
     loanPrice,
     author,
+    categories,
+    editorials,
   });
   return res.status(created.success ? 200 : 400).json({
     success: created.success,

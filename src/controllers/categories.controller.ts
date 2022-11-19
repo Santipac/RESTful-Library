@@ -5,8 +5,7 @@ import {
 } from '../services/categories.services';
 
 export const createCategories = async (req: Request, res: Response) => {
-  const { description, name } = req.body;
-  const created = await createCategory({ description, name });
+  const created = await createCategory(req.body);
   return res.status(created.success ? 200 : 400).json({
     success: created.success,
     data: created.data,

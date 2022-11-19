@@ -81,9 +81,9 @@ model Editorial {
 }
 
 model EditorialBooks {
-  book        Book      @relation(fields: [bookId], references: [id])
+  book        Book      @relation(fields: [bookId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   bookId      Int
-  editorial   Editorial @relation(fields: [editorialId], references: [id])
+  editorial   Editorial @relation(fields: [editorialId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   editorialId Int
   stock       Int
 
